@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { HomePage } from '../pages/HomePage';
-import { ProductPage } from '../pages/ProductPage';
-import { PopupHandler } from '../utils/PopupHandler';
-import { ENV } from '../utils/env.config';
+import { HomePage } from '../../pages/HomePage';
+import { ProductPage } from '../../pages/ProductPage';
+import { PopupHandler } from '../../utils/PopupHandler';
+import { ENV } from '../../utils/env.config';
 
 test.describe('White Stuff Desktop Menu E2E Flow', () => {
     test.setTimeout(120000);
