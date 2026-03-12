@@ -1,0 +1,52 @@
+name: 🚨 Smoke Tests — dev PR
+
+on:
+  pull_request:
+    branches: [dev]
+
+jobs:
+  smoke-tests:
+    name: Smoke Tests (dev)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Smoke tests
+        run: npm run test:smoke:dev
+        env:
+          TEST_ENV: dev
+          BASE_URL:           ${{ secrets.DEV_BASE_URL }}
+          GUEST_EMAIL:        ${{ secrets.GUEST_EMAIL }}
+          TEST_FIRST_NAME:    ${{ secrets.TEST_FIRST_NAME }}
+          TEST_LAST_NAME:     ${{ secrets.TEST_LAST_NAME }}
+          TEST_PHONE:         ${{ secrets.TEST_PHONE }}
+          TEST_POSTCODE:      ${{ secrets.TEST_POSTCODE }}
+          TEST_ADDRESS_LINE1: ${{ secrets.TEST_ADDRESS_LINE1 }}
+          TEST_ADDRESS_LINE2: ${{ secrets.TEST_ADDRESS_LINE2 }}
+          TEST_CITY:          ${{ secrets.TEST_CITY }}
+          CARD_NUMBER:        ${{ secrets.CARD_NUMBER }}
+          CARD_EXPIRY:        ${{ secrets.CARD_EXPIRY }}
+          CARD_CVV:           ${{ secrets.CARD_CVV }}
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: smoke-report-dev
+          path: playwright-report/
+          retention-days: 7
