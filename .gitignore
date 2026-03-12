@@ -1,5 +1,12 @@
 node_modules/
+
+# Environment files — never commit real values
 .env
+.env.dev
+.env.staging
+.env.prod
+!.env.example
+
 allure-results/
 allure-report/
 playwright-report/

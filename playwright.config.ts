@@ -11,7 +11,7 @@ export default defineConfig({
     ['allure-playwright', { outputFolder: 'allure-results' }]
   ],
   use: {
-    baseURL: 'https://www.whitestuff.com',
+    baseURL: process.env.BASE_URL ?? 'https://www.whitestuff.com',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
