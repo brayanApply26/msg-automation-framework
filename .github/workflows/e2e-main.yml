@@ -54,7 +54,7 @@ jobs:
           npm run "test:${SUITE}:${ENV}"
         env:
           TEST_ENV:           ${{ github.event.inputs.environment || 'prod' }}
-          BASE_URL:           ${{ secrets.PROD_BASE_URL }}
+          BASE_URL:           ${{ secrets.PROD_BASE_URL || 'https://www.whitestuff.com' }}
           GUEST_EMAIL:        ${{ secrets.GUEST_EMAIL }}
           TEST_FIRST_NAME:    ${{ secrets.TEST_FIRST_NAME }}
           TEST_LAST_NAME:     ${{ secrets.TEST_LAST_NAME }}
