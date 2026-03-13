@@ -22,6 +22,18 @@ export class HomePage extends BasePage {
     }
 
     /**
+     * Hover over "WOMEN" nav item to open the dropdown,
+     * then click "Jeans & Jeggings" inside it.
+     */
+    async hoverWomenAndClickJeans() {
+        const womenNavItem = this.page.getByTestId('desktop-nav').getByRole('link', { name: 'WOMEN', exact: true });
+        await womenNavItem.hover();
+        const jeansLink = this.page.getByTestId('app-header-url_/browse/womens/jeans-and-jeggings');
+        await jeansLink.waitFor({ state: 'visible', timeout: 5000 });
+        await jeansLink.click();
+    }
+
+    /**
      * Step 2: Navigate directly to MEN'S SALE page.
      */
     async goToMensSale() {

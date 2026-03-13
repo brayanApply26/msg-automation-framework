@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../../pages/HomePage';
+import { WomenProductPage } from '../../pages/WomenProductPage';
 import { PopupHandler } from '../../utils/PopupHandler';
 import { ENV } from '../../utils/env.config';
 
@@ -8,21 +9,19 @@ test.describe('White Stuff Women E2E Flow', () => {
 
     test('Should complete guest checkout — Women Jeans + Sale Footwear', async ({ page }) => {
         const homePage = new HomePage(page);
+        const womenPage = new WomenProductPage(page);
 
         // --- Step 1: Navigate and close all popups ---
         await homePage.navigate();
         await PopupHandler.waitAndClose(page, 4000);
 
-        // --- Step 2: Click WOMEN in desktop nav ---
-        await page.getByTestId('desktop-nav').getByRole('link', { name: 'WOMEN', exact: true }).click();
+        // --- Step 2-3: Hover WOMEN → click Jeans & Jeggings ---
+        await homePage.hoverWomenAndClickJeans();
 
-        // --- Step 3: Click Jeans & Jeggings ---
-        await page.getByTestId('app-header-url_/browse/womens/jeans-and-jeggings').click();
+        // --- Step 4: Click first product ---
+        await womenPage.clickFirstProduct();
 
-        // --- Step 4: Click first product image ---
-        await page.getByTestId('product-card-image-link').first().click();
-
-        // --- Step 5-6: Select size 12 Regular ---
+        // --- Step 5-6: Select size 12 then Regular leg ---
         await page.getByRole('button', { name: '12' }).click();
         await page.getByRole('button', { name: 'Regular' }).click();
 
@@ -39,19 +38,19 @@ test.describe('White Stuff Women E2E Flow', () => {
         await page.getByRole('link', { name: 'SALE FOOTWEAR' }).click();
 
         // --- Step 11: Filter by size 5 ---
-        await page.getByText('5', { exact: true }).click();
+        await womenPage.filterBySize5();
 
         // --- Step 12: Click second product ---
-        await page.getByTestId('product-card-image-link').nth(1).click();
+        await womenPage.clickSecondProduct();
 
-        // --- Step 13: Select size 5 ---
-        await page.getByTestId('product-options-Size').getByRole('button', { name: '5' }).click();
+        // --- Step 13: Select shoe size 5 ---
+        await womenPage.selectShoeSize5();
 
         // --- Step 14: Add to bag ---
-        await page.getByTestId('pdp-add-to-bag').click();
+        await womenPage.addToBag();
 
         // --- Step 15: Go to checkout ---
-        await page.getByTestId('addedtobag-checkout').click();
+        await womenPage.goToCheckout();
 
         // --- Steps 16-17: Guest checkout email ---
         await page.getByTestId('checkout-guest-email-input').fill(ENV.guestEmail);
