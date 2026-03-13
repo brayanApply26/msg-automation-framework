@@ -12,6 +12,8 @@
     "test:e2e:staging": "TEST_ENV=staging playwright test tests/e2e/",
     "test:e2e:prod": "TEST_ENV=prod playwright test tests/e2e/",
     "test:desktop": "TEST_ENV=prod playwright test tests/e2e/DesktopMenuFlow.spec.ts --headed",
+    "test:women": "TEST_ENV=prod playwright test tests/e2e/WomenFlow.spec.ts --headed",
+    "codegen": "playwright codegen https://www.whitestuff.com",
     "test:debug": "playwright test --debug",
     "report": "playwright show-report",
     "allure:generate": "allure generate allure-results --clean -o allure-report",
