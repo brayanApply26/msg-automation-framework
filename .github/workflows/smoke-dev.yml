@@ -26,11 +26,18 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
+      - name: Set BASE_URL with fallback
+        run: |
+          BASE_URL="${{ secrets.DEV_BASE_URL }}"
+          if [ -z "$BASE_URL" ]; then
+            BASE_URL="https://www.whitestuff.com"
+          fi
+          echo "BASE_URL=$BASE_URL" >> $GITHUB_ENV
+
       - name: Run Smoke tests
         run: npm run test:smoke:dev
         env:
           TEST_ENV: dev
-          BASE_URL:           ${{ secrets.DEV_BASE_URL || 'https://www.whitestuff.com' }}
           GUEST_EMAIL:        ${{ secrets.GUEST_EMAIL }}
           TEST_FIRST_NAME:    ${{ secrets.TEST_FIRST_NAME }}
           TEST_LAST_NAME:     ${{ secrets.TEST_LAST_NAME }}
